@@ -3,6 +3,14 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+        js: {
+          src: ['public/dist/*.js'],
+          dest: 'public/dist/concat.js'
+        },
+        css: {
+          src: ['public/dist/*css'],
+          dest: 'public/dist/concat.css'
+        }
     },
 
     mochaTest: {
@@ -21,18 +29,21 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+
+
     },
 
     eslint: {
       target: [
         // Add list of files to lint here
+
       ]
     },
 
     cssmin: {
     },
 
-    watch: {
+     : {
       scripts: {
         files: [
           'public/client/**/*.js',
@@ -42,7 +53,7 @@ module.exports = function(grunt) {
           'concat',
           'uglify'
         ]
-      },
+      },  
       css: {
         files: 'public/*.css',
         tasks: ['cssmin']
