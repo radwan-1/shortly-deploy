@@ -3,14 +3,21 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
-        js: {
-          src: ['public/dist/*.js'],
-          dest: 'public/dist/concat.js'
+      js: {
+          src: ['public/client/**/*.js'],
+          dest: 'public/dist/script.js',
         },
-        css: {
-          src: ['public/dist/*css'],
-          dest: 'public/dist/concat.css'
-        }
+    },
+
+    watch: {
+      js: {
+        files: ['js/**/*.js'],
+        tasks: ['concat'],
+      },
+      css: {
+        files: ['css/**/*.css'],
+        tasks: ['concat'],
+      },
     },
 
     mochaTest: {
@@ -29,21 +36,32 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-
-
+      build: {
+        files: [{
+          src: 'public/dist/script.js',
+          dest: 'public/dist/script.js'
+        }],
+      },
     },
 
     eslint: {
       target: [
         // Add list of files to lint here
-
+       'Gruntfile.js', '!/node_modules/**/*.js'
       ]
     },
 
     cssmin: {
+      target:{
+        files: [{
+          expand: true,
+           src: ['public/style.css'],
+          dest: 'public/dist/script.css',
+        }]
+      }
     },
 
-     : {
+     watch : {
       scripts: {
         files: [
           'public/client/**/*.js',
@@ -55,7 +73,7 @@ module.exports = function(grunt) {
         ]
       },  
       css: {
-        files: 'public/*.css',
+        files: 'public/dist/script.css',
         tasks: ['cssmin']
       }
     },
@@ -74,6 +92,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-build-control');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
@@ -87,7 +106,9 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', [
+  //grunt.registerTask('default', ['concat', 'watch']);
+
+  grunt.registerTask('build', [ 'concat', 'uglify' 
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -100,7 +121,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
+
   ]);
 
 
-};
+} ;
