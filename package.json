@@ -9,8 +9,8 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "start": "grunt build && grunt upload",
-    "test": "grunt test",
+    "start": "node index.js",
+    "test": "node test.js",
     "lint": "eslint ./"
   },
   "dependencies": {
